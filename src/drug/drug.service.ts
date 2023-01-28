@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { FilterQuery } from 'mongoose';
 import { InsertDrugInput } from '../models';
 import { Drug } from '../schema';
 import { DrugRepository } from './drug.repository';
@@ -15,7 +16,9 @@ export class DrugService {
     return this.drugRepository.create(createDrugInput);
   }
 
-  async findAll(): Promise<Drug[]> {
-    return this.drugRepository.find({});
+  async findAll(
+    drugFilterQuery?: FilterQuery<Drug>
+  ): Promise<Drug[]> {
+    return this.drugRepository.find(drugFilterQuery);
   }
 }
