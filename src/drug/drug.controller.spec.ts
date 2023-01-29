@@ -9,7 +9,9 @@ describe('DrugController', () => {
   let drugController: DrugController;
 
   const mockRepository = {
-    find:  jest.fn().mockImplementation(() =>  DRUGS),
+    find:  jest.fn()
+            .mockReturnValueOnce(DRUGS)
+            .mockReturnValueOnce([DRUGS.filter(drug => drug.category === DrugCategory.PainKiller)]),
   };
 
   beforeEach(async () => {
@@ -36,13 +38,27 @@ describe('DrugController', () => {
         expect(result).toEqual(DRUGS);
         expect(result).toBeInstanceOf(Array);
       });
+      it("calls drugRepository.find with the appropriate parameter", () => {
+        expect(mockRepository.find.mock.calls[0][0]).toBeUndefined();
+        expect(mockRepository.find).toHaveBeenCalledWith(undefined); // same as above, leaving it for learning purpuses
+      });
     })
     describe("with filter parameters", () => {
-      it('should return an array', async () => {
-        mockRepository.find.mockReturnValue(DRUGS.filter(drug => drug.category === DrugCategory.PainKiller));
-        const result = await drugController.findDrugs({category: DrugCategory.PainKiller});
-        expect(result).toEqual([DRUGS[0]]);
-        expect(result).toBeInstanceOf(Array);
+      describe("when 0 drug is found", async () => {const param = {category: DrugCategory.PainKiller};
+        
+      });
+      describe("when 1 drug is found", async () => {const param = {category: DrugCategory.PainKiller};
+        it('should return an array', async () => {
+          const result = await drugController.findDrugs(param);
+          expect(result).toEqual([DRUGS[0]]);
+          expect(result).toBeInstanceOf(Array);
+        });
+        it("calls drugRepository.find with the appropriate parameter", () => {
+          expect(mockRepository.find).toHaveBeenCalledWith(param);
+        });
+      });
+      describe("when multiple drugs are found", async () => {const param = {category: DrugCategory.PainKiller};
+        
       });
     })
   });
