@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { FilterQuery, Model } from "mongoose";
 import { Drug, DrugDocument } from "../schema";
-
+// 
 @Injectable()
 export class DrugRepository {
     constructor(@InjectModel(Drug.name) private drugModel: Model<DrugDocument>) {}

@@ -9,10 +9,11 @@ export class DrugService {
   constructor(private readonly drugRepository: DrugRepository) {}
 
   getHello(): string {
-    return 'Hello World!';
+    return 'Hello World!'; 
   }
 
-  async create(createDrugInput: InsertDrugInput): Promise<Drug> {
+  async create(
+    createDrugInput: InsertDrugInput): Promise<Drug> {
     return this.drugRepository.create(createDrugInput);
   }
 
